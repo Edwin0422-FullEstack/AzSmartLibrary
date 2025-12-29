@@ -1,0 +1,48 @@
+﻿@model AzSmartLibrary.Application.DTOs.CreateBookDto
+
+@{
+    ViewData["Title"] = "Nuevo Libro";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0"><i class="bi bi-journal-plus"></i> Registrar Libro</h4>
+            </div>
+            <div class="card-body">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="Title" class="form-label">Título del Libro</label>
+                        <input asp-for="Title" class="form-control" placeholder="Ej. Cien Años de Soledad" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="AuthorId" class="form-label">Autor</label>
+                        <select asp-for="AuthorId" class="form-select" asp-items="ViewBag.Authors">
+                            <option value="">-- Seleccione un Autor --</option>
+                        </select>
+                        <span asp-validation-for="AuthorId" class="text-danger"></span>
+                        <div class="form-text">
+                            ¿No encuentras al autor? <a asp-controller="Authors" asp-action="Create">Crea uno aquí</a>.
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a asp-action="Index" class="btn btn-secondary me-md-2">Cancelar</a>
+                        <button type="submit" class="btn btn-success">Guardar Libro</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

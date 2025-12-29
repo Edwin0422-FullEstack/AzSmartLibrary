@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="src/AzSmartLibrary.Application/AzSmartLibrary.Application.csproj" />
+  <Project Path="src/AzSmartLibrary.Core/AzSmartLibrary.Core.csproj" />
+  <Project Path="src/AzSmartLibrary.Infrastructure/AzSmartLibrary.Infrastructure.csproj" />
+  <Project Path="src/AzSmartLibrary.Web/AzSmartLibrary.Web.csproj" />
+</Solution>
