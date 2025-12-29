@@ -62,7 +62,7 @@
             const currentPath = window.location.pathname.toLowerCase();
             document.querySelectorAll('.nav-link').forEach(link => {
                 const linkPath = link.getAttribute('href')?.toLowerCase();
-                // Lógica mejorada para marcar activo incluso en sub-rutas (ej: /Books/Create)
+                
                 if (linkPath && (currentPath === linkPath || (linkPath !== '/' && currentPath.startsWith(linkPath)))) {
                     link.classList.add('active');
                 }
