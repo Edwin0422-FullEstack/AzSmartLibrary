@@ -12,21 +12,31 @@
     </div>
 }
 
-<div class="d-flex justify-content-between align-items-center mb-5 fade-in">
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-5 fade-in gap-3">
     <div>
         <h1 class="display-6 fw-bold text-dark mb-1">Biblioteca</h1>
         <p class="text-muted mb-0">Gestión inteligente de catálogo</p>
     </div>
-    <a asp-action="Create" class="btn btn-primary btn-lg shadow-sm rounded-pill px-4 d-flex align-items-center gap-2 btn-floating-action">
-        <i class="bi bi-plus-lg"></i>
-        <span class="d-none d-md-inline">Nuevo Libro</span>
-    </a>
+
+    <div class="d-flex flex-column flex-md-row gap-3 align-items-md-center">
+        <div class="input-group shadow-sm rounded-pill overflow-hidden bg-white" style="width: 300px; max-width: 100%;">
+            <span class="input-group-text border-0 bg-transparent ps-3 text-muted">
+                <i class="bi bi-search"></i>
+            </span>
+            <input type="text" id="searchInput" class="form-control border-0 ps-2 py-2 shadow-none" placeholder="Buscar libro o autor...">
+        </div>
+
+        <a asp-action="Create" class="btn btn-primary btn-lg shadow-sm rounded-pill px-4 d-flex align-items-center justify-content-center gap-2 btn-floating-action">
+            <i class="bi bi-plus-lg"></i>
+            <span class="d-none d-md-inline">Nuevo Libro</span>
+        </a>
+    </div>
 </div>
 
-<div class="glass-panel mb-4">
+<div class="glass-panel mb-4 position-relative">
 
     <div class="table-responsive d-none d-md-block">
-        <table class="table table-modern align-middle">
+        <table class="table table-modern align-middle" id="booksTable">
             <thead>
                 <tr>
                     <th class="ps-4">Título de la Obra</th>
@@ -37,19 +47,19 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr class="table-row-hover">
+                    <tr class="table-row-hover search-item">
                         <td class="ps-4">
                             <div class="d-flex align-items-center">
                                 <div class="bg-light rounded p-2 me-3 text-primary">
                                     <i class="bi bi-book fs-4"></i>
                                 </div>
-                                <span class="fw-bold text-dark">@item.Title</span>
+                                <span class="fw-bold text-dark search-title">@item.Title</span>
                             </div>
                         </td>
                         <td>
                             <span class="author-badge">
                                 <img src="https://ui-avatars.com/api/?name=@item.AuthorName&background=dbeafe&color=2563eb&size=24" class="rounded-circle" alt="" />
-                                @item.AuthorName
+                                <span class="search-author">@item.AuthorName</span>
                             </span>
                         </td>
                         <td class="text-end pe-4">
@@ -66,18 +76,17 @@
         </table>
     </div>
 
-    @* Lista Móvil *@
-    <div class="d-md-none p-3 mobile-list">
+    <div class="d-md-none p-3 mobile-list" id="mobileList">
         @foreach (var item in Model)
         {
-            <div class="book-card p-3 mb-3 shadow-sm d-flex justify-content-between align-items-center">
+            <div class="book-card p-3 mb-3 shadow-sm d-flex justify-content-between align-items-center search-item">
                 <div class="d-flex align-items-center gap-3">
                     <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-3">
                         <i class="bi bi-book-fill"></i>
                     </div>
                     <div>
-                        <h6 class="mb-1 fw-bold text-dark">@item.Title</h6>
-                        <small class="text-muted">@item.AuthorName</small>
+                        <h6 class="mb-1 fw-bold text-dark search-title">@item.Title</h6>
+                        <small class="text-muted search-author">@item.AuthorName</small>
                     </div>
                 </div>
                 <button class="btn btn-icon btn-light text-danger rounded-circle shadow-sm js-delete-btn"
@@ -89,9 +98,17 @@
         }
     </div>
 
+    <div id="noResults" class="text-center py-5 d-none">
+        <div class="mb-3 text-muted opacity-25">
+            <i class="bi bi-search display-1"></i>
+        </div>
+        <h4 class="fw-light text-muted">No encontramos coincidencias</h4>
+        <p class="text-muted small">Intenta buscar con otro término.</p>
+    </div>
+
     @if (!Model.Any())
     {
-        <div class="text-center py-5">
+        <div class="text-center py-5" id="emptyState">
             <div class="mb-3 text-muted opacity-25">
                 <i class="bi bi-journal-bookmark display-1"></i>
             </div>
@@ -130,27 +147,52 @@
 
 @section Scripts {
     <script>
-        // --- LÓGICA SEGURA Y LIMPIA ---
         document.addEventListener('DOMContentLoaded', () => {
-            const deleteModalEl = document.getElementById('deleteModal');
-            // Evitar error si el modal no existe (defensive programming)
-            if (!deleteModalEl) return;
+            const searchInput = document.getElementById('searchInput');
+            const noResultsMsg = document.getElementById('noResults');
+            const emptyState = document.getElementById('emptyState');
 
-            const deleteModal = new bootstrap.Modal(deleteModalEl);
-            const titleSpan = document.getElementById('modalBookTitle');
-            const idInput = document.getElementById('deleteBookId');
+            const items = document.querySelectorAll('.search-item');
 
-            document.querySelectorAll('.js-delete-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const id = this.getAttribute('data-id');
-                    const title = this.getAttribute('data-title');
+            searchInput.addEventListener('input', function(e) {
+                const term = e.target.value.toLowerCase().trim();
+                let hasVisibleItems = false;
 
-                    idInput.value = id;
-                    titleSpan.textContent = `"${title}"`;
+                items.forEach(item => {
+                    const title = item.querySelector('.search-title').textContent.toLowerCase();
+                    const author = item.querySelector('.search-author').textContent.toLowerCase();
 
-                    deleteModal.show();
+                    if (title.includes(term) || author.includes(term)) {
+                        item.classList.remove('d-none'); // Mostrar (Bootstrap class)
+                        if(item.tagName === 'TR') item.style.display = ''; // Restaurar display tabla
+                        hasVisibleItems = true;
+                    } else {
+                        item.classList.add('d-none'); // Ocultar
+                    }
                 });
+                if (!hasVisibleItems && items.length > 0) {
+                    noResultsMsg.classList.remove('d-none');
+                } else {
+                    noResultsMsg.classList.add('d-none');
+                }
             });
+
+            const deleteModalEl = document.getElementById('deleteModal');
+            if (deleteModalEl) {
+                const deleteModal = new bootstrap.Modal(deleteModalEl);
+                const titleSpan = document.getElementById('modalBookTitle');
+                const idInput = document.getElementById('deleteBookId');
+
+                document.querySelectorAll('.js-delete-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const id = this.getAttribute('data-id');
+                        const title = this.getAttribute('data-title');
+                        idInput.value = id;
+                        titleSpan.textContent = `"${title}"`;
+                        deleteModal.show();
+                    });
+                });
+            }
         });
     </script>
 }
