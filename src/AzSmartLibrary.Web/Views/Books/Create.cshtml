@@ -1,4 +1,5 @@
-﻿@model AzSmartLibrary.Application.DTOs.CreateBookDto
+﻿
+@model AzSmartLibrary.Web.Models.CreateBookViewModel
 
 @{
     ViewData["Title"] = "Nuevo Libro";
@@ -8,7 +9,6 @@
     <div class="col-md-8 col-lg-6 col-xl-5">
 
         <div class="glass-card">
-
             <div class="card-header-modern d-flex align-items-center justify-content-between">
                 <div>
                     <h5 class="mb-1 text-white-50 text-uppercase small ls-1">Catálogo</h5>
@@ -19,8 +19,10 @@
 
             <div class="card-body p-4 p-md-5">
                 <form asp-action="Create" class="needs-validation" novalidate>
+
                     <div asp-validation-summary="ModelOnly" class="alert alert-danger rounded-3 mb-4 shadow-sm border-0 small"></div>
 
+                    @* Título *@
                     <div class="form-floating mb-4">
                         <input asp-for="Title" class="form-control" placeholder="Nombre del libro" id="floatingTitle" />
                         <label for="floatingTitle" class="text-muted">
@@ -29,10 +31,18 @@
                         <span asp-validation-for="Title" class="text-danger small mt-1 d-block fw-medium"></span>
                     </div>
 
+                    @* CAMBIO 2: Dropdown Tipado *@
                     <div class="form-floating mb-2">
-                        <select asp-for="AuthorId" class="form-select" asp-items="ViewBag.Authors" id="floatingAuthor">
+                        @* asp-for: Bindea al AuthorId seleccionado
+                           asp-items: Se alimenta directamente de la propiedad AuthorsList del modelo
+                        *@
+                        <select asp-for="AuthorId"
+                                asp-items="Model.AuthorsList"
+                                class="form-select"
+                                id="floatingAuthor">
                             <option value="" selected disabled>Selecciona un autor...</option>
                         </select>
+
                         <label for="floatingAuthor" class="text-muted">
                             <i class="bi bi-person-badge me-1"></i> Autor Principal
                         </label>
@@ -65,12 +75,9 @@
 
 @section Scripts {
     @{
-        // Script de validación de cliente (standard de ASP.NET Core)
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-
     <script>
-        // Pequeño script para validación visual instantánea de Bootstrap
         (function () {
             'use strict'
             var forms = document.querySelectorAll('.needs-validation')

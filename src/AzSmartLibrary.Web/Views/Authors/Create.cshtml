@@ -1,4 +1,5 @@
-﻿@model AzSmartLibrary.Application.DTOs.CreateAuthorDto
+﻿@* CAMBIO CLAVE: Usamos el ViewModel específico para la UI *@
+@model AzSmartLibrary.Web.Models.CreateAuthorViewModel
 
 @{
     ViewData["Title"] = "Nuevo Autor";
@@ -19,6 +20,8 @@
 
             <div class="card-body p-4 p-md-5">
                 <form asp-action="Create" class="needs-validation" novalidate>
+
+                    @* Resumen de validaciones de negocio (ej. Nombre duplicado) *@
                     <div asp-validation-summary="ModelOnly" class="alert alert-danger rounded-3 mb-4 shadow-sm border-0 small"></div>
 
                     <div class="form-floating mb-4">
