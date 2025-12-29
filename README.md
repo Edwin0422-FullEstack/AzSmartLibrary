@@ -1,130 +1,138 @@
 # 📚 AzSmartLibrary
 
-### Sistema Inteligente de Gestión de Bibliotecas
-**ASP.NET Core · Clean Architecture · Secure by Design**
+
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Status-Production%20Ready-success?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/.NET-Latest-purple?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Architecture-Clean-blue?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Database-SQL%20Server-red?style=for-the-badge" />
+  <img alt="Status" src="https://img.shields.io/badge/Status-Production%20Ready-success?style=for-the-badge" />
+  <img alt=".NET" src="https://img.shields.io/badge/.NET-10.0-purple?style=for-the-badge" />
+  <img alt="Architecture" src="https://img.shields.io/badge/Architecture-Clean-blue?style=for-the-badge" />
+  <img alt="Database" src="https://img.shields.io/badge/Database-SQL%20Server-red?style=for-the-badge" />
+  <img alt="License" src="https://img.shields.io/badge/License-MIT-lightgrey?style=for-the-badge" />
 </p>
 
-AzSmartLibrary es una aplicación web full-stack, desarrollada en ASP.NET Core y organizada bajo los principios de Clean Architecture. Está pensada como una solución personal de gestión de bibliotecas, enfocada en seguridad, mantenibilidad y una experiencia de usuario moderna.
+AzSmartLibrary — Sistema Inteligente de Gestión de Bibliotecas desarrollado con ASP.NET Core y Clean Architecture. Diseñado para ser seguro, escalable y mantenible, con un enfoque en buenas prácticas (SOLID, DI, separación de responsabilidades).
 
 ---
 
 ## ✨ Resumen rápido
 
-- Plataforma: ASP.NET Core (MVC)
-- Arquitectura: Clean Architecture (capas: Web, Application, Core, Infrastructure)
-- Persistencia: Entity Framework Core / SQL Server (Code-First)
-- Enfoque: Seguridad (XSS, CSRF, validaciones), UX moderno (Glassmorphism)
-- Propósito: proyecto personal y demostrativo
+- Plataforma: ASP.NET Core (MVC) · .NET 10
+- Arquitectura: Clean Architecture (Presentation → Application → Core → Infrastructure)  
+- Persistencia: Entity Framework Core (Code-First) · SQL Server   
 
 ---
 
-## 🧩 Características principales
+## 📦 Estructura del proyecto
 
-- Gestión de Autores y Libros (CRUD)
-- Relación Autor (1) — (N) Libros
-- Validaciones y protecciones contra XSS/CSRF
-- Seed data para popular la base de datos con datos de ejemplo
-- Arquitectura desacoplada y testable mediante DI
-- Diseño responsive y moderno
+Estructura principal (resumen):
+
+- AzSmartLibrary.Web — Presentación (Controllers, Views Razor, ViewModels)  
+- AzSmartLibrary.Application — Lógica de aplicación, DTOs, casos de uso  
+- AzSmartLibrary.Core — Entidades de dominio, reglas de negocio, interfaces de repositorio  
+- AzSmartLibrary.Infrastructure — EF Core, migraciones, implementación de repositorios, seed data
+
+Modelo de datos (ERD):  
+![ERD](docs/diagrams/ERD.png)
 
 ---
 
-## 🏛️ Estructura del proyecto (Clean Architecture)
+## 🚀 Características destacadas
 
-```text
-📦 AzSmartLibrary
- ┣ 📂 AzSmartLibrary.Web (Presentation)
- ┃ ┗ Controladores, Vistas Razor, ViewModels,
- ┃
- ┣ 📂 AzSmartLibrary.Application (Application)
- ┃ ┗ Casos de uso, DTOs, Interfaces, Mappers
- ┃
- ┣ 📂 AzSmartLibrary.Core (Domain)
- ┃ ┗ Entidades, Reglas de Negocio, Interfaces de Repositorio
- ┃
- ┗ 📂 AzSmartLibrary.Infrastructure (Infrastructure)
-   ┗ Entity Framework Core, SQL Server, Repositorios
+- Gestión de Autores y Libros (Alta, Baja lógica, Edición)  
+- Selector dinámico de autores al crear o editar libros  
+- Validaciones en cliente y servidor con Data Annotations  
+- Interfaz responsive basada en Bootstrap   
+- Código organizado según principios SOLID y patrones de Clean Architecture
+
+---
+
+## 🔧 Requisitos
+
+- Visual Studio 2026  (carga de trabajo "ASP.NET y desarrollo web")  
+- .NET 10 SDK  
+- SQL Server (LocalDB, Express o Developer)  
+- Herramientas: EF Core Tools (Package Manager Console o dotnet-ef)
+
+---
+
+## 🏁 Quick Start (Desarrollo local)
+
+1. Clona el repositorio
+```bash
+git clone https://github.com/Edwin0422-FullEstack/AzSmartLibrary.git
+cd AzSmartLibrary
 ```
 
----
+2. Abre la solución `AzSmartLibrary.sln` en Visual Studio y establece `AzSmartLibrary.Web` como proyecto de inicio.
 
-## 🔗 Modelo de datos (resumen)
+3. Configura la cadena de conexión:
+- Edita `src/AzSmartLibrary.Web/appsettings.Development.json` y verifica `DefaultConnection`:
 
-- Autor (Author)
-  - Un autor puede tener múltiples libros.
-- Libro (Book)
-  - Pertenece a un autor principal.
-- Se implementa Soft Delete para entidades críticas.
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=AzSmartLibraryDB;Trusted_Connection=True;MultipleActiveResultSets=true"
+  }
+}
+```
 
-(Coloca aquí tu diagrama entidad-relación/DER en formato imagen si lo tienes)
+4. Ejecuta las migraciones y el seed de datos:
+- Usando Package Manager Console (PM>):
+```powershell
+# Selecciona como proyecto predeterminado:
+# src\AzSmartLibrary.Infrastructure
+Update-Database -StartupProject AzSmartLibrary.Web
+```
+- O usando dotnet-ef:
+```bash
+cd src/AzSmartLibrary.Infrastructure
+dotnet ef database update --startup-project ../AzSmartLibrary.Web
+```
 
----
-
-## ⚙️ Requisitos previos
-
-- Visual Studio 2022/2026 con la carga de trabajo "ASP.NET y desarrollo web"
-- .NET SDK compatible con la solución
-- SQL Server (LocalDB, Express o instancia remota)
-- EF Core Tools (si es necesario para migraciones desde Package Manager Console)
-
----
-
-## 🚀 Instalación y puesta en marcha (sólo desde Consola del Administrador de Paquetes de Visual Studio)
-
-Este proyecto se gestiona íntegramente desde Visual Studio usando la Consola del Administrador de Paquetes (Package Manager Console). No se incluyen instrucciones CLI externas.
-
-1. Abre la solución `AzSmartLibrary.slnx` en Visual Studio.
-2. Configura la cadena de conexión:
-   - Edita `appsettings.Development.json` (o `appsettings.json`) en `AzSmartLibrary.Web`.
-   - Ajusta `ConnectionStrings:DefaultConnection` a tu servidor SQL.
-3. Abre la Consola del Administrador de Paquetes:
-   - Menú: Herramientas > Administrador de paquetes NuGet > Consola del Administrador de paquetes
-   - En el combobox "Proyecto predeterminado" selecciona: `AzSmartLibrary.Infrastructure`
-4. Ejecuta las migraciones y crea la base de datos:
-   - En la consola PM (PowerShell) ejecuta:
-     ```
-     Update-Database -StartupProject AzSmartLibrary.Web
-     ```
-   - Este comando creará la base de datos (por defecto: AzSmartLibraryDB) y ejecutará el seed data.
-5. Ejecuta la aplicación:
-   - Selecciona `AzSmartLibrary.Web` como proyecto de inicio y presiona F5.
+5. Ejecuta la aplicación (F5 o Ctrl+F5). Accede en el navegador a `https://localhost:5001` o la URL que Visual Studio asigne.
 
 ---
 
-## 🧪 Ejecutar tests (desde Visual Studio)
+---
 
-- Abre Test Explorer (Pruebas > Explorador de pruebas) y ejecuta las pruebas desde allí.
-- Si tienes proyectos de test en la solución, Visual Studio detectará y mostrará los tests automáticamente.
+## 📄 Script SQL (Entregable Adicional)
+
+Aunque el proyecto gestiona la base de datos automáticamente mediante **EF Core Migrations** (Code-First), se incluye el script SQL crudo como se solicita en los requisitos técnicos de la prueba.
+
+Este script contiene todas las sentencias DDL para:
+1.  Crear la base de datos `AzSmartLibraryDB`.
+2.  Definir las tablas `Authors` y `Books` con sus relaciones (PK/FK).
+3.  Insertar datos de prueba iniciales (Seed Data).
+
+**Ubicación del archivo:**
+`src/AzSmartLibrary.Infrastructure/sql/script.sql`
+
+> **Nota:** Si prefieres no usar migraciones, puedes ejecutar este script directamente en tu instancia de SQL Server Management Studio (SSMS) para levantar el entorno de datos inmediatamente.
+
+## ⛑️ Despliegue y producción
+
+- Reemplaza la cadena de conexión con una instancia de SQL Server accesible desde el hosting (Azure SQL, VM, etc.).  
+- Asegura secretos y cadenas de conexión con variables de entorno o Azure Key Vault.  
 
 ---
 
-## 🎯 Buenas prácticas y recomendaciones
+## 📸 Capturas
 
-- Mantén las migraciones en el proyecto Infrastructure.
-- No almacenes secrets en appsettings.json para entornos reales: usa mecanismos seguros (por ejemplo, Azure Key Vault o variables de entorno).
-- Añade logging estructurado (Serilog / ILogger) y health checks para entornos de producción.
-- Habilita políticas CSP y otras cabeceras de seguridad para endurecer el despliegue.
+Incluye screenshots de las vistas en `docs/screenshots/`. Ejemplo de carpetas sugeridas:
+- docs/screenshots/catalog.png
+- ![ERD](docs/screenshots/catalog.png)
+- docs/screenshots/new-book.png
+![ERD](docs/screenshots/create.png)
+- docs/screenshots/new-autor.png
+![ERD](docs/screenshots/createAut.png)
 
----
+## 👨‍💻 Autor
 
-## 📸 Capturas / Diagrama
-
-- Captura: Catálogo de Libros —> coloca imagen en `/docs/screenshots/catalog.png`
-- Captura: Registro de Autores —> coloca imagen en `/docs/screenshots/authors.png`
-- Diagrama ER: `/docs/diagrams/ER-diagram.png`
-
-(Agrega los archivos en la carpeta `docs` y referencia las rutas anteriores)
+Osvaldo Abello — Desarrollador .NET  
+- GitHub: [Edwin0422-FullEstack](https://github.com/Edwin0422-FullEstack)
 
 ---
 
-## 🙋‍♂️ Autor
+## Contacto / Soporte
 
-Proyecto personal — desarrollado por Edwin (propietario del repositorio).
-
-
+¿Preguntas o mejoras? 
