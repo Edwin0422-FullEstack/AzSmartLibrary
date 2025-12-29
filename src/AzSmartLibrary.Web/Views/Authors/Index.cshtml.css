@@ -1,0 +1,106 @@
+﻿/* --- ANIMACIONES EN CASCADA --- */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- PANEL DE CRISTAL --- */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
+}
+
+/* --- TABLA MODERNA --- */
+.table-modern {
+    margin-bottom: 0;
+}
+
+    .table-modern th {
+        background: rgba(248, 249, 250, 0.5);
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 1px;
+        color: #6b7280;
+        padding: 1.2rem 1.5rem;
+        border-bottom: 2px solid rgba(0,0,0,0.03);
+    }
+
+.table-row-hover {
+    transition: all 0.2s ease;
+}
+
+    .table-row-hover:hover {
+        background-color: rgba(37, 99, 235, 0.03) !important;
+        transform: scale(1.002);
+    }
+
+/* --- AVATAR Y PERFIL --- */
+.avatar-ring {
+    padding: 3px;
+    background: linear-gradient(135deg, #e0e7ff 0%, #dbeafe 100%);
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.avatar-img {
+    border-radius: 50%;
+    background-color: white;
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+}
+
+/* --- CARDS MÓVILES --- */
+.author-card {
+    background: white;
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 1rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+    .author-card:active {
+        transform: scale(0.98);
+    }
+
+/* --- STAGGERED DELAY (Efecto Cascada) --- */
+tbody tr:nth-child(1), .mobile-grid > div:nth-child(1) {
+    animation: slideInUp 0.4s ease-out forwards;
+    animation-delay: 0.05s;
+    opacity: 0;
+}
+
+tbody tr:nth-child(2), .mobile-grid > div:nth-child(2) {
+    animation: slideInUp 0.4s ease-out forwards;
+    animation-delay: 0.1s;
+    opacity: 0;
+}
+
+tbody tr:nth-child(3), .mobile-grid > div:nth-child(3) {
+    animation: slideInUp 0.4s ease-out forwards;
+    animation-delay: 0.15s;
+    opacity: 0;
+}
+
+tbody tr:nth-child(4), .mobile-grid > div:nth-child(4) {
+    animation: slideInUp 0.4s ease-out forwards;
+    animation-delay: 0.2s;
+    opacity: 0;
+}
+
+tbody tr:nth-child(5), .mobile-grid > div:nth-child(5) {
+    animation: slideInUp 0.4s ease-out forwards;
+    animation-delay: 0.25s;
+    opacity: 0;
+}

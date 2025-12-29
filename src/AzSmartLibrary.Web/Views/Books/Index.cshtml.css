@@ -1,0 +1,120 @@
+﻿/* --- 1. ANIMACIONES DE ENTRADA --- */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- 2. CONTENEDOR DE CRISTAL (Glassmorphism) --- */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.07);
+    overflow: hidden; /* Para bordes redondeados perfectos */
+}
+
+/* --- 3. ESTILOS DE TABLA (Desktop) --- */
+.table-modern {
+    margin-bottom: 0;
+}
+
+    .table-modern thead th {
+        background: rgba(248, 249, 250, 0.8);
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 1px;
+        color: #6c757d;
+        border-bottom: 2px solid rgba(0,0,0,0.05);
+        padding: 1.2rem 1.5rem;
+    }
+
+.table-row-hover {
+    transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    cursor: default;
+}
+
+    .table-row-hover:hover {
+        background-color: rgba(37, 99, 235, 0.04) !important; /* Azul muy sutil */
+        transform: scale(1.005); /* Micro-escalado */
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        z-index: 10;
+        position: relative;
+    }
+
+/* --- 4. ESTILOS DE CARDS (Mobile) --- */
+.book-card {
+    border: none;
+    background: white;
+    border-radius: 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .book-card:active {
+        transform: scale(0.98); /* Efecto de "presionar" en móvil */
+    }
+
+/* --- 5. COMPONENTES VISUALES --- */
+.author-badge {
+    background: #eff6ff;
+    color: #2563eb;
+    padding: 0.5em 1em;
+    border-radius: 50rem; /* Pill shape */
+    font-weight: 600;
+    font-size: 0.85rem;
+    border: 1px solid #dbeafe;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.btn-floating-action {
+    border-radius: 50rem;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s;
+}
+
+    .btn-floating-action:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+
+/* --- 6. STAGGERED ANIMATION DELAY (Cascada) --- */
+/* Generamos retraso para los primeros 10 elementos */
+tbody tr:nth-child(1), .mobile-list > div:nth-child(1) {
+    animation: slideInUp 0.4s ease-out forwards;
+    animation-delay: 0.05s;
+    opacity: 0;
+}
+
+tbody tr:nth-child(2), .mobile-list > div:nth-child(2) {
+    animation: slideInUp 0.4s ease-out forwards;
+    animation-delay: 0.1s;
+    opacity: 0;
+}
+
+tbody tr:nth-child(3), .mobile-list > div:nth-child(3) {
+    animation: slideInUp 0.4s ease-out forwards;
+    animation-delay: 0.15s;
+    opacity: 0;
+}
+
+tbody tr:nth-child(4), .mobile-list > div:nth-child(4) {
+    animation: slideInUp 0.4s ease-out forwards;
+    animation-delay: 0.2s;
+    opacity: 0;
+}
+
+tbody tr:nth-child(5), .mobile-list > div:nth-child(5) {
+    animation: slideInUp 0.4s ease-out forwards;
+    animation-delay: 0.25s;
+    opacity: 0;
+}

@@ -1,55 +1,144 @@
 ﻿@model IEnumerable<AzSmartLibrary.Application.DTOs.BookDto>
 
 @{
-    ViewData["Title"] = "Libros";
+    ViewData["Title"] = "Colección de Libros";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1>Biblioteca de Libros</h1>
-    <a asp-action="Create" class="btn btn-primary">
-        <i class="bi bi-book"></i> Nuevo Libro
+<div class="d-flex justify-content-between align-items-center mb-5 fade-in">
+    <div>
+        <h1 class="display-6 fw-bold text-dark mb-1">Biblioteca</h1>
+        <p class="text-muted mb-0">Gestión inteligente de catálogo</p>
+    </div>
+    <a asp-action="Create" class="btn btn-primary btn-lg shadow-sm rounded-pill px-4 d-flex align-items-center gap-2 btn-floating-action">
+        <i class="bi bi-plus-lg"></i>
+        <span class="d-none d-md-inline">Nuevo Libro</span>
     </a>
 </div>
 
-<div class="card shadow-sm">
-    <div class="card-body">
-        <table class="table table-hover align-middle">
-            <thead class="table-light">
+<div class="glass-panel mb-4">
+
+    <div class="table-responsive d-none d-md-block">
+        <table class="table table-modern align-middle">
+            <thead>
                 <tr>
-                    <th>Título</th>
-                    <th>Autor</th>
-                    <th class="text-end">Acciones</th>
+                    <th class="ps-4">Título de la Obra</th>
+                    <th>Autor Principal</th>
+                    <th class="text-end pe-4">Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td class="fw-bold">@item.Title</td>
+                    <tr class="table-row-hover">
+                        <td class="ps-4">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-light rounded p-2 me-3 text-primary">
+                                    <i class="bi bi-book fs-4"></i>
+                                </div>
+                                <span class="fw-bold text-dark">@item.Title</span>
+                            </div>
+                        </td>
                         <td>
-                            <span class="badge bg-secondary text-light">
-                                <i class="bi bi-person"></i> @item.AuthorName
+                            <span class="author-badge">
+                                <img src="https://ui-avatars.com/api/?name=@item.AuthorName&background=dbeafe&color=2563eb&size=24" class="rounded-circle" alt="" />
+                                @item.AuthorName
                             </span>
                         </td>
-                        <td class="text-end">
-                            <form asp-action="Delete" asp-route-id="@item.Id" method="post"
-                                  onsubmit="return confirm('¿Eliminar este libro?');"
-                                  style="display:inline;">
-                                <button type="submit" class="btn btn-sm btn-outline-danger">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </form>
+                        <td class="text-end pe-4">
+                            <button type="button"
+                                    class="btn btn-outline-danger btn-sm rounded-pill px-3 opacity-75 hover-opacity-100 transition-all"
+                                    onclick="confirmDelete(@item.Id, '@item.Title')">
+                                <i class="bi bi-trash3 me-1"></i> Eliminar
+                            </button>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
+    </div>
 
-        @if (!Model.Any())
+    <div class="d-md-none p-3 mobile-list">
+        @foreach (var item in Model)
         {
-            <div class="alert alert-warning text-center mt-3">
-                No hay libros registrados aún. ¡Asegúrate de crear Autores primero!
+            <div class="book-card p-3 mb-3 shadow-sm d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-3">
+                        <i class="bi bi-book-fill"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-1 fw-bold text-dark">@item.Title</h6>
+                        <small class="text-muted">@item.AuthorName</small>
+                    </div>
+                </div>
+                <button class="btn btn-icon btn-light text-danger rounded-circle shadow-sm"
+                        onclick="confirmDelete(@item.Id, '@item.Title')">
+                    <i class="bi bi-trash"></i>
+                </button>
             </div>
         }
     </div>
+
+    @if (!Model.Any())
+    {
+        <div class="text-center py-5">
+            <div class="mb-3 text-muted opacity-25">
+                <i class="bi bi-journal-bookmark display-1"></i>
+            </div>
+            <h4 class="fw-light text-muted">La biblioteca está vacía</h4>
+            <p class="text-muted small">Comienza agregando autores y libros.</p>
+        </div>
+    }
 </div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-body text-center p-5">
+                <div class="text-danger mb-3">
+                    <i class="bi bi-exclamation-circle display-1"></i>
+                </div>
+                <h3 class="fw-bold mb-2">¿Estás seguro?</h3>
+                <p class="text-muted mb-4">
+                    Vas a eliminar el libro <strong id="modalBookTitle" class="text-dark"></strong>.
+                    <br>Esta acción no se puede deshacer.
+                </p>
+
+                <div class="d-flex justify-content-center gap-2">
+                    <button type="button" class="btn btn-light rounded-pill px-4 fw-bold" data-bs-dismiss="modal">Cancelar</button>
+                    <form id="deleteForm" asp-action="Delete" method="post">
+                        <input type="hidden" name="id" id="deleteBookId" />
+                        <button type="submit" class="btn btn-danger rounded-pill px-4 fw-bold shadow-sm">
+                            Sí, eliminarlo
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // --- LOGICA MODERNA (Vanilla JS ES6+) ---
+
+        let deleteModalInstance;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inicializar el modal de Bootstrap una sola vez
+            const modalEl = document.getElementById('deleteModal');
+            if (modalEl) {
+                deleteModalInstance = new bootstrap.Modal(modalEl);
+            }
+        });
+
+        // Función global (window) para ser llamada desde el HTML onclick
+        window.confirmDelete = (id, title) => {
+            // 1. Inyectar datos en el modal
+            document.getElementById('deleteBookId').value = id;
+            document.getElementById('modalBookTitle').textContent = `"${title}"`;
+
+            // 2. Mostrar modal con animación suave
+            deleteModalInstance.show();
+        };
+    </script>
+}

@@ -4,45 +4,86 @@
     ViewData["Title"] = "Nuevo Libro";
 }
 
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card shadow">
-            <div class="card-header bg-success text-white">
-                <h4 class="mb-0"><i class="bi bi-journal-plus"></i> Registrar Libro</h4>
+<div class="row justify-content-center align-items-center min-vh-75 fade-in-up">
+    <div class="col-md-8 col-lg-6 col-xl-5">
+
+        <div class="glass-card">
+
+            <div class="card-header-modern d-flex align-items-center justify-content-between">
+                <div>
+                    <h5 class="mb-1 text-white-50 text-uppercase small ls-1">Catálogo</h5>
+                    <h3 class="mb-0 fw-bold"><i class="bi bi-bookmark-plus-fill me-2 opacity-75"></i>Nuevo Libro</h3>
+                </div>
+                <i class="bi bi-journal-text fs-1 opacity-25"></i>
             </div>
-            <div class="card-body">
-                <form asp-action="Create">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                    <div class="mb-3">
-                        <label asp-for="Title" class="form-label">Título del Libro</label>
-                        <input asp-for="Title" class="form-control" placeholder="Ej. Cien Años de Soledad" />
-                        <span asp-validation-for="Title" class="text-danger"></span>
+            <div class="card-body p-4 p-md-5">
+                <form asp-action="Create" class="needs-validation" novalidate>
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger rounded-3 mb-4 shadow-sm border-0 small"></div>
+
+                    <div class="form-floating mb-4">
+                        <input asp-for="Title" class="form-control" placeholder="Nombre del libro" id="floatingTitle" />
+                        <label for="floatingTitle" class="text-muted">
+                            <i class="bi bi-type me-1"></i> Título de la Obra
+                        </label>
+                        <span asp-validation-for="Title" class="text-danger small mt-1 d-block fw-medium"></span>
                     </div>
 
-                    <div class="mb-4">
-                        <label asp-for="AuthorId" class="form-label">Autor</label>
-                        <select asp-for="AuthorId" class="form-select" asp-items="ViewBag.Authors">
-                            <option value="">-- Seleccione un Autor --</option>
+                    <div class="form-floating mb-2">
+                        <select asp-for="AuthorId" class="form-select" asp-items="ViewBag.Authors" id="floatingAuthor">
+                            <option value="" selected disabled>Selecciona un autor...</option>
                         </select>
-                        <span asp-validation-for="AuthorId" class="text-danger"></span>
-                        <div class="form-text">
-                            ¿No encuentras al autor? <a asp-controller="Authors" asp-action="Create">Crea uno aquí</a>.
-                        </div>
+                        <label for="floatingAuthor" class="text-muted">
+                            <i class="bi bi-person-badge me-1"></i> Autor Principal
+                        </label>
+                        <span asp-validation-for="AuthorId" class="text-danger small mt-1 d-block fw-medium"></span>
                     </div>
 
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <a asp-action="Index" class="btn btn-secondary me-md-2">Cancelar</a>
-                        <button type="submit" class="btn btn-success">Guardar Libro</button>
+                    <div class="mb-5 text-end">
+                        <small class="text-muted">
+                            ¿No está en la lista?
+                            <a asp-controller="Authors" asp-action="Create" class="helper-link">
+                                Registrar nuevo autor <i class="bi bi-arrow-right-short"></i>
+                            </a>
+                        </small>
+                    </div>
+
+                    <div class="d-grid gap-3 d-md-flex justify-content-md-between align-items-center mt-4">
+                        <a asp-action="Index" class="btn btn-light btn-modern text-muted">
+                            <i class="bi bi-arrow-left"></i> Volver
+                        </a>
+                        <button type="submit" class="btn btn-save btn-modern px-5 shadow-lg">
+                            <i class="bi bi-check-lg me-2"></i> Guardar Libro
+                        </button>
                     </div>
                 </form>
             </div>
         </div>
+
     </div>
 </div>
 
 @section Scripts {
     @{
+        // Script de validación de cliente (standard de ASP.NET Core)
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script>
+        // Pequeño script para validación visual instantánea de Bootstrap
+        (function () {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
 }

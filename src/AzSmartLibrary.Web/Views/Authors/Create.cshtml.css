@@ -1,0 +1,74 @@
+﻿/* --- ANIMACIÓN DE ENTRADA --- */
+.fade-in-up {
+    animation: fadeInUp 0.5s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- TARJETA DE CRISTAL (Glassmorphism) --- */
+.glass-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+/* --- HEADER CON GRADIENTE (Tema: Autores/Personas - Índigo) --- */
+.card-header-modern {
+    background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%); /* Índigo Moderno */
+    color: white;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+/* --- INPUTS MODERNOS (Floating Labels) --- */
+.form-floating > .form-control {
+    border: 2px solid #e5e7eb;
+    border-radius: 0.75rem;
+    padding-left: 1rem;
+    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+    .form-floating > .form-control:focus {
+        border-color: #4f46e5;
+        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+    }
+
+/* --- BOTONES --- */
+.btn-modern {
+    padding: 0.6rem 1.5rem;
+    font-weight: 600;
+    border-radius: 50rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    letter-spacing: 0.3px;
+}
+
+    .btn-modern:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+.btn-save {
+    background: #4f46e5;
+    border: none;
+    color: white;
+}
+
+    .btn-save:hover {
+        background: #4338ca;
+        color: white;
+        box-shadow: 0 4px 15px rgba(67, 56, 202, 0.4);
+    }

@@ -1,48 +1,88 @@
-﻿/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+﻿/* --- VARIABLES LOCALES --- */
+:root {
+    --navbar-height: 70px;
+    --primary-color: #2563eb; /* Azul moderno */
+    --bg-color: #f8f9fa;
 }
 
-a {
-  color: #0077cc;
+/* --- LAYOUT PRINCIPAL --- */
+/* Solo afecta al body de esta vista/layout */
+body {
+    background-color: var(--bg-color);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif; /* Fuente de sistema ultra rápida */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+/* --- NAVBAR MODERN (Glassmorphism) --- */
+.navbar {
+    background: rgba(255, 255, 255, 0.85); /* Translucido */
+    backdrop-filter: blur(12px); /* Efecto cristal */
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    height: var(--navbar-height);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+.brand-icon {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin-right: 0.5rem;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+.navbar-brand:hover .brand-icon {
+    transform: rotate(-10deg) scale(1.1);
 }
 
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+/* Links de navegación con indicador animado */
+.nav-link {
+    font-weight: 500;
+    color: #4b5563 !important; /* Gris oscuro */
+    position: relative;
+    padding: 0.5rem 1rem;
+    transition: color 0.2s;
 }
 
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
-}
+    .nav-link:hover, .nav-link.active {
+        color: var(--primary-color) !important;
+    }
 
+    /* Pequeño punto debajo del link activo */
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%) scale(0);
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: var(--primary-color);
+        transition: transform 0.2s;
+    }
+
+    .nav-link:hover::after, .nav-link.active::after {
+        transform: translateX(-50%) scale(1);
+    }
+
+/* --- FOOTER --- */
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px;
+    background: #fff;
+    border-top: 1px solid rgba(0,0,0,0.05);
+    font-size: 0.9rem;
+    margin-top: auto; /* Empuja el footer al fondo siempre */
+}
+
+/* --- RESPONSIVE ADJUSTMENTS --- */
+@media (max-width: 768px) {
+    .navbar-collapse {
+        background: white;
+        padding: 1rem;
+        border-radius: 1rem;
+        box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1);
+        margin-top: 10px;
+    }
 }
