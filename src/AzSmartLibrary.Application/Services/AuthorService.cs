@@ -21,7 +21,6 @@ namespace AzSmartLibrary.Application.Services
 
         public async Task CreateAsync(CreateAuthorDto dto)
         {
-            // Validación de Negocio: Nombre único
             if (await repository.ExistsByNameAsync(dto.Name))
             {
                 throw new InvalidOperationException($"El autor '{dto.Name}' ya existe.");
@@ -33,7 +32,6 @@ namespace AzSmartLibrary.Application.Services
 
         public async Task UpdateAsync(UpdateAuthorDto dto)
         {
-            // Validación de Negocio: Nombre único (excluyendo el actual)
             if (await repository.ExistsByNameAsync(dto.Name, dto.Id))
             {
                 throw new InvalidOperationException($"El nombre '{dto.Name}' ya está en uso por otro autor.");
@@ -48,7 +46,6 @@ namespace AzSmartLibrary.Application.Services
 
         public async Task DeactivateAsync(int id)
         {
-            // Validación de Integridad: ¿Tiene libros?
             if (await repository.HasBooksAsync(id))
             {
                 throw new InvalidOperationException("No se puede eliminar el autor porque tiene libros asociados.");

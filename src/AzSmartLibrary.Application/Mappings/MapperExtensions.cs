@@ -5,7 +5,7 @@ namespace AzSmartLibrary.Application.Mappings
 {
     public static class MapperExtensions
     {
-        // --- AUTHOR MAPPINGS ---
+        // --- AUTHOR  ---
         public static AuthorDto ToDto(this Author author)
             => new(author.Id, author.Name);
 
@@ -17,7 +17,7 @@ namespace AzSmartLibrary.Application.Mappings
             author.Name = dto.Name;
         }
 
-        // --- BOOK MAPPINGS ---
+        // --- BOOK  ---
         public static BookDto ToDto(this Book book)
             => new(book.Id, book.Title, book.Author?.Name ?? "Desconocido", book.AuthorId);
 

@@ -8,7 +8,7 @@ namespace AzSmartLibrary.Application.DI
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            // Registramos los servicios de lógica de negocio
+            
             services.AddScoped<IAuthorService, AuthorService>();
             services.AddScoped<IBookService, BookService>();
 

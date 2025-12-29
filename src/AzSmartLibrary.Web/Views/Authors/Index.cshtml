@@ -4,7 +4,6 @@
     ViewData["Title"] = "Autores Registrados";
 }
 
-@* 1. FEEDBACK: Mostramos las alertas del Controller *@
 @if (TempData["SuccessMessage"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show rounded-pill shadow-sm mb-4 border-0" role="alert">
@@ -56,7 +55,6 @@
                             </div>
                         </td>
                         <td class="text-end pe-4">
-                            @* 2. SEGURIDAD: Usamos data-attributes en lugar de pasar strings en onclick *@
                             <button class="btn btn-outline-danger btn-sm rounded-pill px-3 d-inline-flex align-items-center gap-2 transition-all js-delete-btn"
                                     data-id="@item.Id"
                                     data-name="@item.Name">
@@ -69,7 +67,6 @@
         </table>
     </div>
 
-    @* Versión Móvil *@
     <div class="d-md-none p-3 mobile-grid">
         @foreach (var item in Model)
         {
@@ -102,7 +99,6 @@
     }
 </div>
 
-@* Modal de Confirmación *@
 <div class="modal fade" id="deleteAuthorModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
@@ -142,7 +138,6 @@
             const modalTitle = document.getElementById('modalAuthorName');
             const modalInput = document.getElementById('deleteAuthorId');
 
-            // Event Delegation (Mejor rendimiento y seguridad)
             document.querySelectorAll('.js-delete-btn').forEach(button => {
                 button.addEventListener('click', function() {
                     const id = this.getAttribute('data-id');

@@ -4,7 +4,6 @@
     ViewData["Title"] = "Colección de Libros";
 }
 
-@* 1. FEEDBACK VISUAL: Sin esto, el usuario no sabe si el borrado funcionó *@
 @if (TempData["SuccessMessage"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show rounded-pill shadow-sm mb-4 border-0" role="alert">
@@ -54,7 +53,6 @@
                             </span>
                         </td>
                         <td class="text-end pe-4">
-                            @* 2. SEGURIDAD: data-attributes para pasar datos complejos *@
                             <button type="button"
                                     class="btn btn-outline-danger btn-sm rounded-pill px-3 opacity-75 hover-opacity-100 transition-all js-delete-btn"
                                     data-id="@item.Id"
@@ -103,7 +101,6 @@
     }
 </div>
 
-@* Modal de Confirmación *@
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow-lg rounded-4">
@@ -143,10 +140,8 @@
             const titleSpan = document.getElementById('modalBookTitle');
             const idInput = document.getElementById('deleteBookId');
 
-            // Event Delegation: Un solo listener para todos los botones (Mejor rendimiento)
             document.querySelectorAll('.js-delete-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
-                    // Extraemos los datos seguros desde los atributos data-*
                     const id = this.getAttribute('data-id');
                     const title = this.getAttribute('data-title');
 

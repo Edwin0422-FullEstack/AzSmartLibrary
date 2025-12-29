@@ -19,7 +19,7 @@ namespace AzSmartLibrary.Infrastructure.Repositories
         {
             // REQUISITO CUMPLIDO: Traer datos del autor
             return await context.Books
-                .Include(b => b.Author) // JOIN implícito
+                .Include(b => b.Author) // JOIN 
                 .AsNoTracking()
                 .OrderBy(b => b.Title)
                 .ToListAsync();
@@ -28,7 +28,7 @@ namespace AzSmartLibrary.Infrastructure.Repositories
         public async Task<Book?> GetByIdAsync(int id)
         {
             return await context.Books
-                .Include(b => b.Author) // También útil al editar para mostrar el autor actual
+                .Include(b => b.Author) 
                 .FirstOrDefaultAsync(b => b.Id == id);
         }
 

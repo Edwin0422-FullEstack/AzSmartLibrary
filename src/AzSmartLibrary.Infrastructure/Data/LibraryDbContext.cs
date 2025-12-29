@@ -12,22 +12,17 @@ namespace AzSmartLibrary.Infrastructure.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // --- 1. CONFIGURACIÓN DE SOFT DELETE (Global Query Filter) ---
-            // Esto es "Magia" Senior: Automáticamente filtra los inactivos en TODA la app.
+          
             modelBuilder.Entity<Author>().HasQueryFilter(a => a.IsActive);
             modelBuilder.Entity<Book>().HasQueryFilter(b => b.IsActive);
 
-            // --- 2. RELACIONES (Fluent API explícito) ---
             modelBuilder.Entity<Book>()
                 .HasOne(b => b.Author)
                 .WithMany(a => a.Books)
                 .HasForeignKey(b => b.AuthorId)
-                // Restrict: Evita borrar un autor si tiene libros (Protección DB nivel FK)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // --- 3. SEEDING (Datos de prueba iniciales) ---
-            // Para que cuando corras la app no esté vacía (Mejora la experiencia de quien revisa la prueba)
-
+      
             var authors = new List<Author>
         {
             new() { Id = 1, Name = "Gabriel García Márquez", IsActive = true },

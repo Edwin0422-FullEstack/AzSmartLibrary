@@ -32,19 +32,19 @@ namespace AzSmartLibrary.Web.Controllers
 
             try
             {
-                // Mapping explícito: ViewModel (UI) -> DTO (Negocio)
+                
                 var authorDto = new CreateAuthorDto(model.Name);
 
                 await _authorService.CreateAsync(authorDto);
 
-                // Feedback visual de éxito (Opcional pero recomendado)
+                
                 TempData["SuccessMessage"] = "Autor creado correctamente.";
 
                 return RedirectToAction(nameof(Index));
             }
             catch (InvalidOperationException ex)
             {
-                // Error de negocio (ej. Nombre duplicado)
+                
                 ModelState.AddModelError("Name", ex.Message);
                 return View(model);
             }
@@ -62,9 +62,7 @@ namespace AzSmartLibrary.Web.Controllers
             }
             catch (Exception ex) // Captura genérica solo en capa UI final
             {
-                // CORRECCIÓN: Nunca dejar el catch vacío.
-                // Usamos TempData para que el layout muestre una alerta toast/banner
-                // Asumiendo que implementaremos un sistema de notificaciones en _Layout o la Vista
+               
                 TempData["ErrorMessage"] = $"Error al eliminar: {ex.Message}";
             }
 

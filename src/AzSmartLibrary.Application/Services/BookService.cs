@@ -9,7 +9,6 @@ namespace AzSmartLibrary.Application.Services
     {
         public async Task<IEnumerable<BookDto>> GetAllAsync()
         {
-            // Usamos el método optimizado del repositorio que incluye Autores
             var books = await repository.GetAllWithAuthorsAsync();
             return books.Select(b => b.ToDto());
         }

@@ -18,7 +18,6 @@ namespace AzSmartLibrary.Web.Controllers
         // GET: Books/Create
         public async Task<IActionResult> Create()
         {
-            // Arquitectura: Preparamos el ViewModel con los datos necesarios para renderizar
             var viewModel = new CreateBookViewModel
             {
                 AuthorsList = await GetAuthorsSelectListAsync()
@@ -32,19 +31,17 @@ namespace AzSmartLibrary.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateBookViewModel model)
         {
-            // 1. Validación de Modelo (Annotations)
             if (!ModelState.IsValid)
             {
                 // Patrón PRG (Post-Redirect-Get) safety:
-                // Si falla, hay que recargar la lista porque HTTP es stateless (la lista se perdió)
+                // Si falla, hay que recargar la lista porque HTTP es stateless
                 model.AuthorsList = await GetAuthorsSelectListAsync();
                 return View(model);
             }
 
             try
             {
-                // 2. Mapping Manual (ViewModel -> DTO)
-                // En proyectos grandes usarías AutoMapper, pero aquí es explícito y limpio.
+               
                 var bookDto = new CreateBookDto(model.Title, model.AuthorId!.Value);
 
                 await _bookService.CreateAsync(bookDto);
@@ -69,11 +66,9 @@ namespace AzSmartLibrary.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // Helper privado para encapsular la lógica de obtención de datos UI
         private async Task<SelectList> GetAuthorsSelectListAsync()
         {
             var authors = await _authorService.GetAllAsync();
-            // SelectList(Source, ValueField, TextField, SelectedValue)
             return new SelectList(authors, "Id", "Name");
         }
     }

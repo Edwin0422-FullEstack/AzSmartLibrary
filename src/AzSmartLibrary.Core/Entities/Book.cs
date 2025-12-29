@@ -15,8 +15,7 @@ namespace AzSmartLibrary.Core.Entities
         [Required(ErrorMessage = "Debe seleccionar un autor")]
         public int AuthorId { get; set; }
 
-        // Propiedad de Navegación
-        // 'virtual' permite Lazy Loading si se requiere en el futuro
+       
         [ForeignKey(nameof(AuthorId))]
         public virtual Author? Author { get; set; }
     }
